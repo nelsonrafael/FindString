@@ -20,6 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
@@ -128,42 +129,56 @@ public class MainWindow extends JFrame implements ActionListener, ItemListener {
 			input.setText("");
 			// Arrays.fill(sFiles, null);
 			System.gc();
+		} else if (e.getSource() == credits) {
+			JOptionPane.showMessageDialog(this, "© 2019 Nélson Rafael Martins All Rights Reserverd", "Credits",
+					JOptionPane.PLAIN_MESSAGE);
+		} else if (e.getSource() == help) {
+			JOptionPane.showMessageDialog(this,
+					"Choose Directory - lists available directories and allows one to be chosen.\n"
+							+ "Below is the full path of the chosen directory.\n\n"
+							+ "Case Sensitive - the search is case sensitive (self explanatory).\n\n"
+							+ "Display Line - the lines which contain the given string are displayed.\n\n"
+							+ "Memory Efficient - best option; lowest resourse usage; predefined for a reason.\n\n"
+							+ "Search Sub Folders - searches folders inside given directory (self explanatory).\n\n"
+							+ "Start - ... (self explanatory).\n\n"
+							+ "Clear - clear the display (self explanatory).\n\n"
+							+ "Input - right side of both Start and Clear buttons; string to be searched (self explanatory).\n\n\n"
+							+ "This program was done to work in plain text files, take notice,and it is not meant to be misused.\n\n"
+							+ "Any doubts mail me at:\n\n"
+							+ "Nelson.Martins@vicaima-sgps.pt",
+					"Help", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
 	private void workDir(String p) {
-		//System.out.println(p);
+		// System.out.println(p);
 		try {
 			ListDirectory ld = new ListDirectory(p);
 			for (int i = 0; i < ld.getFiles().length; i++) {
 				if (ld.getFiles()[i].isFile()) {
 					findInFile(i, p, ld);
 				} else if (ld.getFiles()[i].isDirectory() && searchSubFolder) {
-					//System.out.println(ld.getFiles()[i].getName());
+					// System.out.println(ld.getFiles()[i].getName());
 					workDir(p + "\\" + ld.getFiles()[i].getName());
 				}
 			}
-		}catch (NullPointerException e) {
+		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
-		
-		/*sFiles = new StringFile[ld.getFiles().length];
-		for (int i = 0; i < ld.getFiles().length; i++) {
-			if (ld.getFiles()[i].isFile()) {
-				findInFile(i, p, ld);
-			} else if (ld.getFiles()[i].isDirectory() && searchSubFolder) {
-				/*
-				 * if (!(ld.getFiles()[i].getName().contains("A Minha Música") ||
-				 * ld.getFiles()[i].getName().contains("As Minhas Imagens") ||
-				 * ld.getFiles()[i].getName().contains("Modelos Personalizados do Office") ||
-				 * ld.getFiles()[i].getName().contains("Os Meus Vídeos"))) {
-				 * System.out.println(ld.getFiles()[i].getName());
-				
-				System.out.println(ld.getFiles()[i].getName());
-				workDir(p + "\\" + ld.getFiles()[i].getName());
-				// }
-			}
-		}*/
+
+		/*
+		 * sFiles = new StringFile[ld.getFiles().length]; for (int i = 0; i <
+		 * ld.getFiles().length; i++) { if (ld.getFiles()[i].isFile()) { findInFile(i,
+		 * p, ld); } else if (ld.getFiles()[i].isDirectory() && searchSubFolder) { /* if
+		 * (!(ld.getFiles()[i].getName().contains("A Minha Música") ||
+		 * ld.getFiles()[i].getName().contains("As Minhas Imagens") ||
+		 * ld.getFiles()[i].getName().contains("Modelos Personalizados do Office") ||
+		 * ld.getFiles()[i].getName().contains("Os Meus Vídeos"))) {
+		 * System.out.println(ld.getFiles()[i].getName());
+		 * 
+		 * System.out.println(ld.getFiles()[i].getName()); workDir(p + "\\" +
+		 * ld.getFiles()[i].getName()); // } } }
+		 */
 	}
 
 	private void findInFile(int i, String p, ListDirectory ld) {
